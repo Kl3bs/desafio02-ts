@@ -3,18 +3,28 @@ import { useState, useEffect } from "react";
 import { login } from "../services/login";
 import { api } from "../api";
 
+interface UserData {
+  email: string;
+  password: string;
+  name: string;
+}
+
 export const Card = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState("");
+
+  const [userData, setUserData] = useState<null | UserData>();
 
   useEffect(() => {
     const getData = async () => {
-      const data = await api;
-      console.log(data);
+      const data: UserData | any = await api;
+      setUserData(data);
     };
 
     getData();
-  });
+  }, []);
+
+  console.log(userData);
 
   return (
     <Box
@@ -35,7 +45,14 @@ export const Card = () => {
         gap="20px"
         textAlign="center"
       >
+        {userData === null ||
+          (userData === undefined ? (
+            <h1>Carregando...</h1>
+          ) : (
+            <h1>Informações carregadas!</h1>
+          ))}
         <Text fontSize="4xl">Fazer Login</Text>
+        {userData?.name}
         <Input
           placeholder="Email"
           value={email}
