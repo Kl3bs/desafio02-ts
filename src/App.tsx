@@ -1,29 +1,23 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { useState } from "react";
-import { Card } from "./components/Card";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
+import Conta from "./pages/Conta";
+import ContaInfo from "./pages/ContaInfo";
+import Home from "./pages/Home";
 
 function App() {
-  const [value, setValue] = useState(0);
-
   return (
-    <ChakraProvider>
-      <Layout>
-        <Card></Card>
-
-        <div>
-          <button
-            onClick={() => {
-              setValue(value + 1);
-              console.log(value);
-            }}
-          >
-            Click me
-          </button>
-          <h1>{value}</h1>
-        </div>
-      </Layout>
-    </ChakraProvider>
+    <BrowserRouter>
+      <ChakraProvider>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/conta/:id" element={<Conta />}></Route>
+            <Route path="/infoconta" element={<ContaInfo />}></Route>
+          </Routes>
+        </Layout>
+      </ChakraProvider>
+    </BrowserRouter>
   );
 }
 
